@@ -127,7 +127,7 @@ public class ExtractAPK {
 
             } else {
                 // 单个文件，不记录运行
-                fullFilePath = apkPath + File.separator + fileName;
+                fullFilePath = apkPath;
             }
 
             // 提取文件数据
