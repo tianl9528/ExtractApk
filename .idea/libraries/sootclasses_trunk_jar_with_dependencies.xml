@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="sootclasses-trunk-jar-with-dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ExLib/sootclasses-trunk-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ExLib/soot-infoflow.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ExLib/soot-infoflow-android.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ExLib/AXMLPrinter2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/ExLib/sootclasses-trunk-jar-with-dependencies.jar!/" />
+    </SOURCES>
+  </library>
+</component>
