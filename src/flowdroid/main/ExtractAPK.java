@@ -16,7 +16,7 @@ public class ExtractAPK {
     private static int repeatCount = 1;
 
     public static void main(String[] args) throws XmlPullParserException, IOException {
-        if (args.length < 3) {
+        if (args.length != 3) {
             printUsage();
             return;
         }
@@ -29,7 +29,7 @@ public class ExtractAPK {
         List<String> apkFiles = validateAgrs(apkPath, androidJar, mode);
 
         // 运行并提取结果
-        List<DataParsing> allResults = run(apkPath, apkFiles, androidJar, mode, 1);
+        List<DataParsing> allResults = run(apkPath, apkFiles, androidJar, mode, 10);
 
         // 保存所有数据到单个文件
         savaOverview(allResults, 0, -1);
@@ -112,17 +112,23 @@ public class ExtractAPK {
                     fullFilePath = fileName;
                 System.out.println("Analyzing file " + fullFilePath + "...");
 
+                // 目录，记录运行
                 File flagFile = new File("Processed/_Run_" + new File(fileName).getName());
                 File flagFileDir = flagFile.getParentFile();
                 if (!flagFileDir.exists()) {
                     flagFileDir.mkdirs();
                 }
-                if (flagFile.exists())
+
+                if (flagFile.exists()) {
                     continue;
+                }
+
                 flagFile.createNewFile();
 
-            } else
+            } else {
+                // 单个文件，不记录运行
                 fullFilePath = apkPath + File.separator + fileName;
+            }
 
             // 提取文件数据
             System.out.println((apkFiles.indexOf(fileName) + 1) + " / " + apkFiles.size());
@@ -139,12 +145,7 @@ public class ExtractAPK {
                 ESSF.setApkFile(fullFilePath);
                 ESSF.run();
 
-                // TODO 合并方法
-                results.setFlowResults(ESSF.getFlowResult().getExtractContents());
-                results.setFlowTime(ESSF.getFlowResult().getCostTime());
-                results.setFlowSources(ESSF.getFlowResult().getSelSources());
-                results.setFlowSinks(ESSF.getFlowResult().getSelSinks());
-                results.setFlowTime(ESSF.getFlowResult().getCostTime());
+                results.savaFlowResult(ESSF);
                 results.setMode(mode);
 
                 allResults.add(results);
@@ -232,9 +233,7 @@ public class ExtractAPK {
         fw = new FileWriter(finalResult, true);
         bw = new BufferedWriter(fw);
         for (DataParsing results : allresults) {
-            List<String> data = Arrays.asList(results.apkNameToString(), results.manifestToString(),
-                    results.flowToString(), results.sourcesToString(), results.sinksToString(),
-                    String.valueOf(results.getFlowTime()), results.getMode());
+            List<String> data = results.toStringList();
             StringBuilder result = new StringBuilder();
             boolean first = true;
             for (String string : data) {

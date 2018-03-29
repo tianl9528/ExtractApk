@@ -3,10 +3,7 @@ package flowdroid.helper;
 import soot.jimple.Stmt;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class DataParsing {
     private String apkName;
@@ -116,6 +113,20 @@ public class DataParsing {
         return result.toString();
     }
 
+    public void savaFlowResult(ExtractSourceSinkFlow ESSF) {
+        this.flowResults = ESSF.getFlowResult().getExtractContents();
+        this.flowTime = ESSF.getFlowResult().getCostTime();
+        this.flowSources = ESSF.getFlowResult().getSelSources();
+        this.flowSinks = ESSF.getFlowResult().getSelSinks();
+        this.flowTime = ESSF.getFlowResult().getCostTime();
+    }
+
+    public List<String> toStringList() {
+        return Arrays.asList(this.apkNameToString(), this.manifestToString(),
+                this.flowToString(), this.sourcesToString(), this.sinksToString(),
+                String.valueOf(this.getFlowTime()), this.getMode());
+    }
+
     public String getApkName() {
         return apkName;
     }
@@ -154,7 +165,7 @@ public class DataParsing {
         return flowTime;
     }
 
-    public void setFlowTime(Double flowTime) {
+    public void setFlowTime(double flowTime) {
         this.flowTime = flowTime;
     }
 
